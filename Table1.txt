@@ -126,7 +126,7 @@ mysql> select * from employee;
 3 rows in set (0.01 sec)
 
 
-
+//Joins in SQL
 
 mysql> desc employee_Form;
 +------------+-------------+------+-----+---------+-------+
