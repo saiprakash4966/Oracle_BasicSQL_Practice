@@ -1,0 +1,210 @@
+//CRUD Operations in SQL
+
+mysql> create database basic_sql;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use basic_sql
+Database changed
+mysql> create table employee_payroll (id int not null auto_increment, name varchar(100) not null, salary double not null, start date not null, primary key(id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql>  desc employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int          | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(100) | NO   |     | NULL    |                |
+| salary | double       | NO   |     | NULL    |                |
+| start  | date         | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> Insert into employee_payroll (name, salary, startdate) values ('Bill', '100000','2020-1-1');
+ERROR 1054 (42S22): Unknown column 'startdate' in 'field list'
+mysql> Insert into employee_payroll (name, salary, start) values ('Bill', '100000','2020-1-1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  Insert into employee_payroll (name, salary, start) values ('Tillu', '400000','2018-1-1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  Insert into employee_payroll (name, salary, start) values ('Vikram', '400000','2018-1-1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  SELECT *FROM employee WHERE Salary > 100000;
+ERROR 1146 (42S02): Table 'basic_sql.employee' doesn't exist
+mysql>  SELECT *FROM employee_payroll WHERE Salary > 100000;
++----+--------+--------+------------+
+| id | name   | salary | start      |
++----+--------+--------+------------+
+|  2 | Tillu  | 400000 | 2018-01-01 |
+|  3 | Vikram | 400000 | 2018-01-01 |
++----+--------+--------+------------+
+2 rows in set (0.00 sec)
+
+
+mysql>  UPDATE employee_payroll SET salary = '500000' WHERE ID = 6;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql>  DELETE FROM employee_payroll  WHERE Salary = 400000;
+Query OK, 2 rows affected (0.01 sec)
+
+mysql> select * from employee_payroll;
++----+------+--------+------------+
+| id | name | salary | start      |
++----+------+--------+------------+
+|  1 | Bill | 100000 | 2020-01-01 |
++----+------+--------+------------+
+1 row in set (0.00 sec)
+
+
+//Having ,order by and group by in SQL
+
+
+mysql> INSERT INTO employee VALUES (1, 'Rachit', 'M', 50000, 'Engineering', '6 year');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO employee VALUES (2, 'Manoj', 'M', 60000, 'Doctor', '4 year');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employee VALUES (3, 'Raghu', 'M', 70000, 'IT', '7 year');
+Query OK, 1 row affected (0.01 sec)
+
+
+
+mysql> select * from employee;
++------------+--------+--------+--------+-------------+------------+
+| EmployeeId | Name   | Gender | Salary | Department  | Experience |
++------------+--------+--------+--------+-------------+------------+
+|          1 | Rachit | M      |  50000 | Engineering | 6 year     |
+|          2 | Manoj  | M      |  60000 | Doctor      | 4 year     |
+|          3 | Raghu  | M      |  70000 | IT          | 7 year     |
++------------+--------+--------+--------+-------------+------------+
+3 rows in set (0.00 sec)
+
+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Department, sum(Salary) as Salary
+    -> FROM employee
+    -> GROUP BY department
+    -> HAVING SUM(Salary) >= 60000;
++------------+--------+
+| Department | Salary |
++------------+--------+
+| Doctor     |  60000 |
+| IT         |  70000 |
++------------+--------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM employee ORDER BY EmployeeId DESC;
++------------+--------+--------+--------+-------------+------------+
+| EmployeeId | Name   | Gender | Salary | Department  | Experience |
++------------+--------+--------+--------+-------------+------------+
+|          3 | Raghu  | M      |  70000 | IT          | 7 year     |
+|          2 | Manoj  | M      |  60000 | Doctor      | 4 year     |
+|          1 | Rachit | M      |  50000 | Engineering | 6 year     |
++------------+--------+--------+--------+-------------+------------+
+3 rows in set (0.00 sec)
+
+//index in SQL
+
+
+mysql> CREATE INDEX index_Department ON employee (Department);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++------------+--------+--------+--------+-------------+------------+
+| EmployeeId | Name   | Gender | Salary | Department  | Experience |
++------------+--------+--------+--------+-------------+------------+
+|          1 | Rachit | M      |  50000 | Engineering | 6 year     |
+|          2 | Manoj  | M      |  60000 | Doctor      | 4 year     |
+|          3 | Raghu  | M      |  70000 | IT          | 7 year     |
++------------+--------+--------+--------+-------------+------------+
+3 rows in set (0.01 sec)
+
+
+
+
+mysql> desc employee_Form;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| ID         | int         | NO   | PRI | NULL    |       |
+| First_Name | varchar(20) | YES  |     | NULL    |       |
+| Last_Name  | varchar(20) | YES  |     | NULL    |       |
+| Salary     | int         | YES  |     | NULL    |       |
+| Email_Id   | varchar(40) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+
+mysql>  insert into employee_Form(ID,First_Name,Last_Name,Salary,Email_Id)VALUES(1,"Saiprakash","Beemari",50000,"saiprakash@gmail.com"),(2,"Manoj","Kumar",60000,"manoj@gmail.com"),(3,"Raghu","Gattu",70000,"Raghu@gmail.com");
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+
+mysql> create table Department(DepartmentID INT PRIMARY KEY, Department_Name  VARCHAR(50));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc Department;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| DepartmentID    | int         | NO   | PRI | NULL    |       |
+| Department_Name | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+
+mysql> insert into Department(DepartmentID,Department_Name)VALUES(1,"HR"),(2,"Finance"),(3,"Admin");
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from new_employeeForm;
+ERROR 1146 (42S02): Table 'basic_sql.new_employeeform' doesn't exist
+mysql> show tables;
++---------------------+
+| Tables_in_basic_sql |
++---------------------+
+| department          |
+| emp_data            |
+| employee            |
+| employee_form       |
+| employee_payroll    |
+| new_emp             |
++---------------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from employee_form;
++----+------------+-----------+--------+----------------------+
+| ID | First_Name | Last_Name | Salary | Email_Id             |
++----+------------+-----------+--------+----------------------+
+|  1 | Saiprakash | Beemari   |  50000 | saiprakash@gmail.com |
+|  2 | Manoj      | Kumar     |  60000 | manoj@gmail.com      |
+|  3 | Raghu      | Gattu     |  70000 | Raghu@gmail.com      |
++----+------------+-----------+--------+----------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from department;
++--------------+-----------------+
+| DepartmentID | Department_Name |
++--------------+-----------------+
+|            1 | HR              |
+|            2 | Finance         |
+|            3 | Admin           |
++--------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select ID,First_Name,Last_Name,Salary,Department_Name
+    -> FROM employee_form,department
+    -> WHERE ID = DepartmentID;
++----+------------+-----------+--------+-----------------+
+| ID | First_Name | Last_Name | Salary | Department_Name |
++----+------------+-----------+--------+-----------------+
+|  1 | Saiprakash | Beemari   |  50000 | HR              |
+|  2 | Manoj      | Kumar     |  60000 | Finance         |
+|  3 | Raghu      | Gattu     |  70000 | Admin           |
++----+------------+-----------+--------+-----------------+
