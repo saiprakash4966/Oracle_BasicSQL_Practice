@@ -19,8 +19,7 @@ mysql>  desc employee_payroll;
 +--------+--------------+------+-----+---------+----------------+
 4 rows in set (0.01 sec)
 
-mysql> Insert into employee_payroll (name, salary, startdate) values ('Bill', '100000','2020-1-1');
-ERROR 1054 (42S22): Unknown column 'startdate' in 'field list'
+
 mysql> Insert into employee_payroll (name, salary, start) values ('Bill', '100000','2020-1-1');
 Query OK, 1 row affected (0.01 sec)
 
@@ -30,8 +29,7 @@ Query OK, 1 row affected (0.01 sec)
 mysql>  Insert into employee_payroll (name, salary, start) values ('Vikram', '400000','2018-1-1');
 Query OK, 1 row affected (0.01 sec)
 
-mysql>  SELECT *FROM employee WHERE Salary > 100000;
-ERROR 1146 (42S02): Table 'basic_sql.employee' doesn't exist
+
 mysql>  SELECT *FROM employee_payroll WHERE Salary > 100000;
 +----+--------+--------+------------+
 | id | name   | salary | start      |
